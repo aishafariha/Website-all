@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon"
+      href="https://scontent.fzyl1-1.fna.fbcdn.net/v/t39.30808-6/326292213_1233273087600760_3847057262609278010_n.png?_nc_cat=1&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFUqAs-RQCvyc_yN-EOLQqPMmrGBANemdAyasYEA16Z0FcTxavILGK0UyWO89OJj0XpcBJ0dyKdxkHMJaynxsEl&_nc_ohc=OjCmCBuPgTsAX-W2-NQ&_nc_ht=scontent.fzyl1-1.fna&oh=00_AfAIJKG0pUbKJ1Zqx1kvTeWIpc6eN-ZYQ_BgzIpq5a6D2g&oe=63F4D464"
+      type="image/x-icon" />
+    <title>Age Calculator</title>
+    <script
+      src="https://kit.fontawesome.com/1935d064dd.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <div class="container">
+      <div class="row box">
+        <div class="col-md-5">
+          <h1 class="text-center mb-5 fw-bold fs-1 ">Age Calculator</h1>
+          <form action="" autocomplete="off">
+            <input
+              type="text"
+              class="form-control form-control-lg mb-2"
+              placeholder="Name"
+              id="username"
+            />
+            <input
+              type="date"
+               placeholder="Date"
+              class="form-control form-control-lg mb-2"
+              id="dob"
+            />
+            <div class="d-grid">
+              <button class="btn btn-primary btn-lg">Calculate</button>
+            </div>
+          </form>
+
+          <div class="result mt-5 fs-3 fw-bold">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <p>Name: <span class="u-name"></span></p>
+              </li>
+              <li class="list-group-item">
+                <p>
+                  Age:
+                  <span class="age-year badge bg-success">0 Years</span>
+                  <span class="age-month badge bg-danger">0 Months</span>
+                  <span class="age-day badge bg-primary">0 Days</span>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>const username = document.querySelector("#username");
+  const dob = document.querySelector("#dob");
+  const btn = document.querySelector(".btn");
+  const showName = document.querySelector(".u-name");
+  const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  
+  btn.addEventListener("click", calculateAge);
+  
+  function calculateAge(e) {
+    e.preventDefault();
+    let today = new Date();
+    let dobInput = new Date(dob.value);
+    let birthMonth, birthDate, birthYear;
+    let birthDetails = {
+      date: dobInput.getDate(),
+      month: dobInput.getMonth() + 1,
+      year: dobInput.getFullYear(),
+    };
+    let currentYear = today.getFullYear();
+    let currentMonth = today.getMonth() + 1;
+    let currentDate = today.getDate();
+  
+    if (
+      birthDetails.year > currentYear ||
+      (birthDetails.month > currentMonth && birthDetails.year == currentYear) ||
+      (birthDetails.date > currentDate &&
+        birthDetails.month == currentMonth &&
+        birthDetails.year == currentYear)
+    ) {
+      alert("Invalid date");
+      return;
+    }
+  
+    birthYear = currentYear - birthDetails.year;
+  
+    if (currentMonth >= birthDetails.month) {
+      birthMonth = currentMonth - birthDetails.month;
+    } else {
+      birthYear--;
+      birthMonth = 12 + currentMonth - birthDetails.month;
+    }
+  
+    if (currentDate >= birthDetails.date) {
+      birthDate = currentDate - birthDetails.date;
+    } else {
+      birthMonth--;
+      let days = months[currentMonth - 2];
+      birthDate = days + currentDate - birthDetails.date;
+  
+      if (birthMonth < 0) {
+        birthMonth = 11;
+        birthYear--;
+      }
+    }
+    displayResult(birthDate, birthMonth, birthYear);
+  
+    function displayResult(bDate, bMonth, bYear) {
+      showName.textContent = username.value;
+      document.querySelector(".age-year").textContent = bYear + "Years";
+      document.querySelector(".age-month").textContent = bMonth + "Months";
+      document.querySelector(".age-day").textContent = bDate + "Day";
+    }
+  }</script>
+  </body>
+</html>
